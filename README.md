@@ -17,5 +17,5 @@ user likes comedies, ratings that are between 3-5 stars and a certain time that 
   - the tools that we will be using for this project are Pyhton, Pandas, Jupyter Notebook Pyspark, Flask, HTML, CSS, CSVs, Kubernetes, MySQL, SQLAlchemy
 
 ## Dataset:
-That the data set we will be using is from a folder of csv files gathered from Movie Lens. We will be using the csv files to help with the rules algorithm as well as using the data to help train our model
+That the data set we will be using is from a folder of csv files gathered from Movie Lens - https://grouplens.org/datasets/movielens/latest/ . We will be using the csv files to help with the rules algorithm as well as using the data to help train our model
   
