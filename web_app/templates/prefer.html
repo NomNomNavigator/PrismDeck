@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Preference Page{% endblock %}
+
+{% block content %}
+<h1>Preference Page</h1>
+<form method="POST">
+     <div class="form-group">
+        <label for='restaurantName1'>First Preferred Restaurant</label>
+        <input
+        type='text'
+        class='form-control'
+        id='restaurantName1'
+        name='restaurantName1'
+        placeholder='Enter restaurant name'
+        />
+    </div>
+    <div class="form-group">
+        <label for='restaurantName2'>Second Preferred Restaurant</label>
+        <input
+        type='text'
+        class='form-control'
+        id='restaurantName2'
+        name='restaurantName2'
+        placeholder='Enter restaurant name'
+        />
+    </div>
+    <div class="form-group">
+        <label for='restaurantName3'>Third Preferred Restaurant</label>
+        <input
+        type='text'
+        class='form-control'
+        id='restaurantName3'
+        name='restaurantName3'
+        placeholder='Enter restaurant name'
+        />
+    </div>
+     <div class="form-group">
+        <label for='priceAmount'>Preferred Price</label>
+        <input
+        type='text'
+        class='form-control'
+        id='priceAmount'
+        name='priceAmount'
+        placeholder='Enter preferred price amount to spend'
+        />
+    </div>
+    <div class="form-group">
+        <label for='preferredCuisine'>Preferred Cuisine</label>
+        <input
+        type='text'
+        class='form-control'
+        id='preferredCuisine'
+        name='preferredCuisine'
+        placeholder='Enter preferred cuisine'
+        />
+    </div>
+</form>
+{% endblock %}
