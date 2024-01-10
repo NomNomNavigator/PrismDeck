@@ -5,6 +5,6 @@ ssh_password = 'student0'
 
 db_username = 'nomnom'
 db_password = 'nomnom'
-db_name = 'nomnom'
+db_name = 'prismdeck'
 
 secret_key = 'fnocwnf4384bfgvu9wer374747230gvwsab'
