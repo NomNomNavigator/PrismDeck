@@ -4,7 +4,7 @@ Model for using SQLAlchemy ORM.
 import datetime
 from flask_login import UserMixin
 from . import db
-# Below For sqlalchemy 3.0 approach with Base model
+# Use below import for sqlalchemy 3.0 approach with Base model
 # from sqlalchemy import Column, Integer, String, Float
 
 
@@ -16,6 +16,12 @@ class User(UserMixin, db.Model):
     last_name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.Text)
     create_ts = db.Column(db.TIMESTAMP)
+    fav_mov1 = db.Column(db.Integer, db.ForeignKey('movie.id'))
+    fav_mov2 = db.Column(db.Integer, db.ForeignKey('movie.id'))
+    fav_mov3 = db.Column(db.Integer, db.ForeignKey('movie.id'))
+    fav_genre1 = db.Column(db.String(30))
+    fav_genre2 = db.Column(db.String(30))
+    fav_genre3 = db.Column(db.String(30))
 
 
 class Movie(db.Model):
