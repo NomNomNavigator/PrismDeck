@@ -2,13 +2,6 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for msg in messages %}
-                <p>{{msg}}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
 <form method="POST">
     <h3 align='center'>Login</h3>
     <div class="form-group">
