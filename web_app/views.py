@@ -26,5 +26,7 @@ def prefer():
 
         if Movie.query.filter_by(title=fav_movie1).first() is None:
             flash("Sorry, that movie is not in our registry, please try typing a different movie")
+        else:
+            pass
 
     return render_template('prefer.html', user=current_user)
