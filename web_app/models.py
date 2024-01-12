@@ -26,7 +26,7 @@ class User(UserMixin, db.Model):
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(150), nullable=False)
+    title = db.Column(db.String(200), nullable=False)
     year = db.Column(db.Integer)
     avg_rate = db.Column(db.Float)
     imdb_id = db.Column(db.Integer)
@@ -54,6 +54,6 @@ class MovieTag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     movie_id = db.Column(db.Integer, db.ForeignKey('movie.id'))
-    tag = db.Column(db.Float)
-    create_ts = db.Column(db.TIMESTAMP)
+    tag = db.Column(db.String(100))
+    create_ts = db.Column(db.Integer)
 

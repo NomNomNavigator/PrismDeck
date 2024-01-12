@@ -8,7 +8,6 @@ migrate = Migrate(app, db)
 with app.app_context():
     db.create_all()
 
-
 # will only run the web server in this file
 if __name__ == "__main__":
     try:
