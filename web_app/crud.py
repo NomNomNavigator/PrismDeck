@@ -57,7 +57,7 @@ def update_movie_rating(usr_id: int, movie_id: int, rating: float):
         return f"Error updating movie rating: {str(e)}"
 
 
-
+# Not being used currently, only grabbing fav_genres for the rate_movies page
 def get_user_preferences(usr_id: int):
     fav_genres = get_user_fav_genres(usr_id)
     fav_movies = get_user_fav_movies(usr_id)
@@ -94,7 +94,8 @@ def get_user_rated_movies(usr_id: int):
         return None
 
 
-def get_movies_to_rate(rated_movies: list, usr_prefs: list):
+def get_movies_to_rate(rated_movies: list, fav_genres: list):
+
 
     pass
 
