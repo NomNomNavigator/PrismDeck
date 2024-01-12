@@ -42,7 +42,6 @@ def logout():
 
 @confirm.route('/sign-up', methods=['POST', "GET"])
 def sign_up():
-    pass
     if request.method == 'POST':
         email = request.form.get('email')
         user_name = request.form.get('userName')
