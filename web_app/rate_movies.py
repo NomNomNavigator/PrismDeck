@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, flash
+from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from crud import (save_movie_rating, get_user_rated_movies, get_user_fav_genres, get_movies_to_rate,
                   check_previous_rating, update_movie_rating)
