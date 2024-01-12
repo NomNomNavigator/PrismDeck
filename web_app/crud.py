@@ -24,21 +24,22 @@ def save_movie_rating(user_id, movie_id, rating):
 
 
 def get_user_preferences(usr_id: int):
-    fav_genres = get_user_genres(usr_id)
-    fav_movies = get_user_movies(usr_id)
+    fav_genres = get_user_fav_genres(usr_id)
+    fav_movies = get_user_fav_movies(usr_id)
     return fav_genres, fav_movies
 
 
-def get_user_genres(usr_id: int):
+def get_user_fav_genres(usr_id: int):
     ug_result = db.session.execute(select(User.fav_genre1, User.fav_genre2, User.fav_genre3)
                                    .where(User.id == usr_id)).first()
     if ug_result:
-        user_genres = [str(genre) for genre in ug_result]
+        user_genres = [genre for genre in ug_result]
         return user_genres
     else:
         return None
 
-def get_user_movies(usr_id: int):
+
+def get_user_fav_movies(usr_id: int):
     um_result = db.session.execute(select(User.fav_mov1, User.fav_mov2, User.fav_mov3)
                                    .where(User.id == usr_id)).first()
     if um_result:
@@ -49,10 +50,20 @@ def get_user_movies(usr_id: int):
 
 
 def get_user_rated_movies(usr_id: int):
+    urm_result = db.session.execute(select(MovieRating.movie_id)
+                                   .where(MovieRating.user_id == usr_id)).fetchall()
+    if urm_result:
+        user_rated_movies = [mov for mov in urm_result]
+        return user_rated_movies
+    else:
+        return None
+
+
+def get_movies_to_rate(rated_movies: list, usr_prefs: list):
+
     pass
 
-def get_movies_to_rate():
-    pass
+
 # Function to get the valid genre strings
 def get_genres()-> list:
     genres = [
