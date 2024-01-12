@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash
 from flask_login import login_required, current_user
-from crud import (save_movie_rating, get_user_rated_movies, get_user_preferences, get_movies_to_rate,
-                  check_previous_rating, update_movie_rating)
+from .crud import (save_movie_rating, get_user_rated_movies, get_user_preferences, get_movies_to_rate,
+                   check_previous_rating, update_movie_rating)
 
 rate_movies = Blueprint('rate_movies', __name__)
 
@@ -20,7 +20,7 @@ def get_movies(usr_id: int):
 # Note:  Most likely need to change dict to whatever type is going to be passed in from client
 @rate_movies.route('/rate-movies', methods=['POST'])
 @login_required
-def rate_movies(usr_id: int, movie_ratings: dict):
+def rate_movie(usr_id: int, movie_ratings: dict):
     for movie in movie_ratings:
         movie_id = movie.id
         rating = movie.rating
