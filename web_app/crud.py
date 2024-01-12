@@ -10,9 +10,12 @@ from . import db
 def check_previous_rating(usr_id: int, movie_id: int):
     result = db.session.execute(select(MovieRating.movie_id)
                                 .where(MovieRating.user_id == usr_id)).first()
-    db_movie_id = int(result.movie_id)
-    if db_movie_id == movie_id:
-        return True
+    if result:
+        db_movie_id = int(result.movie_id)
+        if db_movie_id == movie_id:
+            return True
+        else:
+            return False
     else:
         return False
 
