@@ -13,7 +13,7 @@ def get_movies(usr_id: int):
     user_fav_genres = get_user_fav_genres(usr_id)
     user_rated_movies = get_user_rated_movies(usr_id)
     movies_to_rate = get_movies_to_rate(user_rated_movies, user_fav_genres)
-    return render_template('rate-movies.html', user=current_user)
+    return render_template('rate-movies.html', user=current_user, movies=movies_to_rate)
 
 
 # Route for posting movie rating movies

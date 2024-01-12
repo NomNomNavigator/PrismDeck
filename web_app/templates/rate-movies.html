@@ -2,7 +2,15 @@
 {% block title %} Rate Movies {% endblock %}
 
 {% block content %}
-"Hi"
+
+{% for movie in movies[:20] %}
+  <div>
+    <h3>{{ movie['title'] }}</h3>
+    <p>Year: {{ movie['year'] }}</p>
+    <p>Average Rating: {{ movie['avg_rating'] }}</p>
+    <!-- Current User Rating?  On the slider? -->
+  </div>
+{% endfor %}
 
 
 {% endblock %}

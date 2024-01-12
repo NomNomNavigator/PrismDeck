@@ -2,7 +2,7 @@
 CRUD Functions for interacting with tables/data via the ORM
 """
 from models import Movie, MovieRating, User, UserMixin
-from sqlalchemy import select, update
+from sqlalchemy import select, update, desc
 from sqlalchemy.exc import SQLAlchemyError
 from . import db
 
@@ -40,8 +40,8 @@ def save_movie_rating(usr_id: int, movie_id: int, rating: float):
 def update_movie_rating(usr_id: int, movie_id: int, rating: float):
     try:
         # I don't understand which way will work / is better.
-        movie_rating = MovieRating.query.filter_by(user_id=user_id, movie_id=movie_id).first()
-        movie_rating2 = db.session.execute(select(MovieRating.movie_id).where(MovieRating.user_id == usr_id)).fetchall()
+        movie_rating = MovieRating.query.filter_by(user_id=usr_id, movie_id=movie_id).first()
+        # movie_rating2 = db.session.execute(select(MovieRating.movie_id).where(MovieRating.user_id == usr_id)).fetchall()
 
         if movie_rating:
             movie_rating.rating = rating
@@ -96,8 +96,19 @@ def get_user_rated_movies(usr_id: int):
 
 def get_movies_to_rate(rated_movies: list, fav_genres: list):
 
+    movie_list = Movie.query.order_by(desc(Movie.avg_rate)).limit(200).all()
 
-    pass
+    if movie_list:
+        # Basic - just give back the movies
+        movies = [mov for mov in movie_list]
+        return movies
+        # Need to check if the movie is already rated from rated_movies list
+        # Then serve back N number from list
+        # Use fav_genres to pick pick what makes it in N number list out of all
+    else:
+        raise Exception("Error retrieving movie links")
+
+
 
 
 # Function to get the valid genre strings
