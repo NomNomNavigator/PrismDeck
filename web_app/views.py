@@ -45,7 +45,7 @@ def prefer():
         fav_mov3 = request.form.get('fav_mov3')
         fav_genre1 = request.form.get('fav_genre1')
         fav_genre2 = request.form.get('fav_genre2')
-        fav_genre3 = request.form.get('fav_genre')
+        fav_genre3 = request.form.get('fav_genre3')
 
         movie1 = Movie.query.filter_by(title=fav_mov1).first()
         movie2 = Movie.query.filter_by(title=fav_mov2).first()
@@ -64,18 +64,16 @@ def prefer():
         elif fav_mov3 is None:
             flash("Sorry, the third movie you entered is not in our registry, please try typing a different movie",
                   category='error')
-        for genre in genres:
-            if fav_genre1 not in genre:
-                flash("Your first entry for favorite genres does not exists in our records. please select another genre",
-                      category='error')
-            elif fav_genre2 not in genre:
-                flash("Your second entry for favorite genres does not exists in our records. please select another genre",
-                      category='error')
-            elif fav_genre3 not in genre:
-                flash("Your third entry for favorite genres does not exists in our records. please select another genre",
-                      category='error')
-            else:
-                user_genres.append(genre)
+
+        elif fav_genre1 not in genres:
+            flash("Your first entry for favorite genres does not exists in our records. please select another genre",
+                  category='error')
+        elif fav_genre2 not in genres:
+            flash("Your second entry for favorite genres does not exists in our records. please select another genre",
+                  category='error')
+        elif fav_genre3 not in genres:
+            flash("Your third entry for favorite genres does not exists in our records. please select another genre",
+                  category='error')
 
         else:
             current_user.fav_mov1 = movie1.id
@@ -86,5 +84,5 @@ def prefer():
             current_user.fav_genre3 = fav_genre3
             db.session.commit()
             flash("Your preferences have been successfully saved to your profile!", category="success")
-            return redirect(url_for('rate_movies.get_movies'))
+            return redirect(url_for('views.access'))
     return render_template('prefer.html', user=current_user)
