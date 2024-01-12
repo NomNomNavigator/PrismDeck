@@ -47,6 +47,12 @@ def get_user_movies(usr_id: int):
     else:
         return None
 
+
+def get_user_rated_movies(usr_id: int):
+    pass
+
+def get_movies_to_rate():
+    pass
 # Function to get the valid genre strings
 def get_genres()-> list:
     genres = [
