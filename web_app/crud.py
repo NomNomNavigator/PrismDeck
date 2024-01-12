@@ -2,16 +2,26 @@
 CRUD Functions for interacting with tables/data via the ORM
 """
 from models import Movie, MovieRating, User, UserMixin
-from sqlalchemy import select
+from sqlalchemy import select, update
 from sqlalchemy.exc import SQLAlchemyError
 from . import db
 
 
+def check_previous_rating(usr_id: int, movie_id: int):
+    result = db.session.execute(select(MovieRating.movie_id)
+                                .where(MovieRating.user_id == usr_id)).first()
+    db_movie_id = int(result.movie_id)
+    if db_movie_id == movie_id:
+        return True
+    else:
+        return False
+
+
 # This may need to be a route of some sort in order for JS or JS Ajax to save ratings as they happen.
-def save_movie_rating(user_id, movie_id, rating):
+def save_movie_rating(usr_id: int, movie_id: int, rating: float):
     try:
         movie_rating = MovieRating(
-            user_id=user_id,
+            user_id=usr_id,
             movie_id=movie_id,
             rating=rating
         )
@@ -21,6 +31,28 @@ def save_movie_rating(user_id, movie_id, rating):
     except SQLAlchemyError as e:
         db.session.rollback()
         return f"Error saving moving rating: {str(e)}"
+
+
+# This may need to be a route of some sort in order for JS or JS Ajax to save ratings as they happen.
+def update_movie_rating(usr_id: int, movie_id: int, rating: float):
+    try:
+        # I don't understand which way will work / is better.
+        movie_rating = MovieRating.query.filter_by(user_id=user_id, movie_id=movie_id).first()
+        movie_rating2 = db.session.execute(select(MovieRating.movie_id).where(MovieRating.user_id == usr_id)).fetchall()
+
+        if movie_rating:
+            movie_rating.rating = rating
+            # update_rating = db.session.execute(
+            #   update(MovieRating).where(user_id=user_id, movie_id=movie_id).values(rating=rating))
+            db.session.commit()
+            return "Success"
+        else:
+            return "Movie rating not found for the given user and movie ID."
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return f"Error updating movie rating: {str(e)}"
+
 
 
 def get_user_preferences(usr_id: int):
