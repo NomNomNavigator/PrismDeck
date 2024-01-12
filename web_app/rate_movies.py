@@ -7,7 +7,7 @@ rate_movies = Blueprint('rate_movies', __name__)
 
 
 # Route for rating movies, two routes will call this endpoint (prefer, home)
-@rate_movies.route('/rate-movies', methods=['GET'])
+@rate_movies.route('/rate-movies/<int:usr_id>')
 @login_required
 def get_movies():
     usr_id = current_user.id
@@ -21,6 +21,7 @@ def get_movies():
 # Note:  Most likely need to change dict to whatever type is going to be passed in from client
 @rate_movies.route('/rate-movies', methods=['POST'])
 @login_required
+
 def rate_movie(movie_ratings: dict):
     usr_id = current_user.id
     for movie in movie_ratings:
@@ -32,4 +33,3 @@ def rate_movie(movie_ratings: dict):
         else:
             save_movie_rating(usr_id, movie_id, rating)
     return render_template('prism-home.html', user=current_user)
-
