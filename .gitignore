@@ -165,6 +165,7 @@ idea
 
 # Config files
 config.py
+config1.py
 
 # Virtual Env fiels
 venv

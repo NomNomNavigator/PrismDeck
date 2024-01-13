@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from sshtunnel import SSHTunnelForwarder
-from config import *
+from config1 import *
 
 
 db = SQLAlchemy()
