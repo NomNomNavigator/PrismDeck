@@ -84,5 +84,5 @@ def prefer():
             current_user.fav_genre3 = fav_genre3
             db.session.commit()
             flash("Your preferences have been successfully saved to your profile!", category="success")
-            return redirect(url_for('views.access'))
+            return redirect(url_for('rate_movies.get_movies'))
     return render_template('prefer.html', user=current_user)
