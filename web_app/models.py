@@ -10,10 +10,10 @@ from . import db
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(25), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    first_name = db.Column(db.String(50), nullable=False)
-    last_name = db.Column(db.String(100), nullable=False)
+    user_name = db.Column(db.String(25), unique=True)
+    email = db.Column(db.String(100), unique=True)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(100))
     password = db.Column(db.Text)
     create_ts = db.Column(db.TIMESTAMP)
     fav_mov1 = db.Column(db.Integer, db.ForeignKey('movie.id'))
