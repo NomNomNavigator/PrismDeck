@@ -71,7 +71,7 @@ def get_user_fav_genres(usr_id: int):
     ug_result = db.session.execute(select(User.fav_genre1, User.fav_genre2, User.fav_genre3)
                                    .where(User.id == usr_id)).first()
     if ug_result:
-        user_genres = [genre for genre in ug_result]
+        user_genres = [genre.lower() for genre in ug_result]
         return user_genres
     else:
         return None
@@ -93,27 +93,49 @@ def get_user_rated_movies(usr_id: int):
     urm_result = db.session.execute(select(MovieRating.movie_id)
                                    .where(MovieRating.user_id == usr_id)).fetchall()
     if urm_result:
-        user_rated_movies = [mov for mov in urm_result]
+        user_rated_movies = [mov[0] for mov in urm_result]
         return user_rated_movies
     else:
         return None
 
 
+# Get movies to rate, ordered by unrated movies matching fav genres that are highest rated
 def get_movies_to_rate(rated_movies: list, fav_genres: list):
 
     movie_list = Movie.query.order_by(desc(Movie.avg_rate)).limit(200).all()
 
     if movie_list:
-        # Basic - just give back the movies
-        movies = [mov for mov in movie_list]
-        return movies
-        # Need to check if the movie is already rated from rated_movies list
-        # Then serve back N number from list
-        # Use fav_genres to pick pick what makes it in N number list out of all
+        # movies = [mov for mov in movie_list]
+        # return movies
+        movies = []
+        user_rated_movies = []
+        for mov in movie_list:
+            if mov.id not in rated_movies:
+                movies.append(mov)
+            else:
+                user_rated_movies.append(mov)
+        # Get count of unrated movies genres matched to fav_genres
+        for m in movies:
+            m.genre_count = 0
+            for g in m.genres:
+                if g.genre in fav_genres:
+                    m.genre_count += 1
+        # Get count of user rated movies genres matched to fav_genres
+        for mv in user_rated_movies:
+            mv.genre_count = 0
+            for g in mv.genres:
+                if g.genre in fav_genres:
+                    mv.genre_count += 1
+        # for m in movies:
+        #     m.genre_count = sum(1 for genre in m.genres if genre.genre in fav_genres)
+
+        # Sort by fav_genres matches, then the movies average rating
+        sorted_movies = sorted(movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
+        sorted_rated_movies = sorted(user_rated_movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
+        # Order by unrated movies, then rated movies
+        return sorted_movies + sorted_rated_movies
     else:
-        raise Exception("Error retrieving movie links")
-
-
+        raise Exception("Error retrieving movies to rate")
 
 
 # Function to get the valid genre strings
