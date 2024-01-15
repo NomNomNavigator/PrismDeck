@@ -2,16 +2,18 @@
 CRUD Functions for interacting with tables/data via the ORM
 """
 from .models import Movie, MovieRating, User, UserMixin
-from sqlalchemy import select, update, desc
+from sqlalchemy import select, update, desc, and_
 from sqlalchemy.exc import SQLAlchemyError
 from . import db
 
 
+# Checking if the user has rated this movie before
 def check_previous_rating(usr_id: int, movie_id: int):
-    result = db.session.execute(select(MovieRating.movie_id)
-                                .where(MovieRating.user_id == usr_id)).first()
+    result = db.session.execute(select(MovieRating.movie_id).where(
+        and_(MovieRating.user_id == usr_id, MovieRating.movie_id == movie_id))).first()
+
     if result:
-        db_movie_id = int(result.movie_id)
+        db_movie_id = int(result[0])
         if db_movie_id == movie_id:
             return True
         else:
@@ -20,7 +22,7 @@ def check_previous_rating(usr_id: int, movie_id: int):
         return False
 
 
-# This may need to be a route of some sort in order for JS or JS Ajax to save ratings as they happen.
+# The first time a user rates a movie, save a new record to movie_rating table
 def save_movie_rating(usr_id: int, movie_id: int, rating: float):
     try:
         movie_rating = MovieRating(
@@ -36,7 +38,7 @@ def save_movie_rating(usr_id: int, movie_id: int, rating: float):
         return f"Error saving moving rating: {str(e)}"
 
 
-# This may need to be a route of some sort in order for JS or JS Ajax to save ratings as they happen.
+# When a user re-rates an already rated movie, update the existing record with the new rating
 def update_movie_rating(usr_id: int, movie_id: int, rating: float):
     try:
         # I don't understand which way will work / is better.
@@ -64,6 +66,7 @@ def get_user_preferences(usr_id: int):
     return fav_genres, fav_movies
 
 
+# Get a users favorite movie genres (3 max, 3 enforced currently)
 def get_user_fav_genres(usr_id: int):
     ug_result = db.session.execute(select(User.fav_genre1, User.fav_genre2, User.fav_genre3)
                                    .where(User.id == usr_id)).first()
@@ -74,6 +77,7 @@ def get_user_fav_genres(usr_id: int):
         return None
 
 
+# Get a users favorite movies (3 max, 3 enforced currently)
 def get_user_fav_movies(usr_id: int):
     um_result = db.session.execute(select(User.fav_mov1, User.fav_mov2, User.fav_mov3)
                                    .where(User.id == usr_id)).first()
@@ -84,6 +88,7 @@ def get_user_fav_movies(usr_id: int):
         return None
 
 
+# Get all the movies a user has rated (each row is a dict, i think, need to test)
 def get_user_rated_movies(usr_id: int):
     urm_result = db.session.execute(select(MovieRating.movie_id)
                                    .where(MovieRating.user_id == usr_id)).fetchall()
