@@ -31,12 +31,11 @@
     <form action="{{ url_for('rate_movies.rate_movie') }}" method="post">
       {% for movie in movies %}
         <div class="movie_column">
-          <div class="movie_tile">
+          <div class="movie-tile">
             <div class="rating">
               <div>
                 <h5>{{ movie['title'] }}</h5>
-                <p>Year: {{ movie['year'] }}</p>
-                <p>Average Rating: {{ movie['avg_rate'] }}</p>
+                <p>Year: {{ movie['year'] }} <br> Average Rating: {{ movie['avg_rate'] }}</p>
                 <input type="hidden" name="movie_ids[]" value="{{ movie['id'] }}">
                 <input value="5" name="rating_{{ movie['id'] }}" id="star5_{{ movie['id'] }}" type="radio">
                 <label for="star5_{{ movie['id'] }}"></label>

@@ -25,8 +25,8 @@ def get_movies():
     else:
         movies = cached_movies
 
-    # Slice the list to get the next 10 movies starting from the current position
-    movies_to_rate = movies[current_movie_position : current_movie_position + 10]
+    # Slice the list to get the next 8 movies starting from the current position
+    movies_to_rate = movies[current_movie_position : current_movie_position + 8]
 
     return render_template('rate-movies.html', user=current_user, movies=movies_to_rate)
 
@@ -52,9 +52,9 @@ def rate_movie():
                 save_movie_rating(user_id, movie_id, rating)
 
     # Add 10 to counter get next 10 movies if "next" is clicked
-    current_movie_position += 10
+    current_movie_position += 8
 
-    if current_movie_position >= 190:
+    if current_movie_position >= 192:
         current_movie_position = 0
 
     if 'next' in request.form:
