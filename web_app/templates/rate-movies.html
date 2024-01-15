@@ -28,7 +28,7 @@
       </div>
     </nav>
 
-    <form action="{{ url_for('rate_movies.rate_movie') })" method="post">
+    <form action="{{ url_for('rate_movies.rate_movie') }}" method="post">
       {% for movie in movies %}
         <div class="movie_column">
           <div class="movie_tile">

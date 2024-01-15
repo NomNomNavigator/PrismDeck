@@ -41,7 +41,7 @@ def save_movie_rating(usr_id: int, movie_id: int, rating: float):
 # When a user re-rates an already rated movie, update the existing record with the new rating
 def update_movie_rating(usr_id: int, movie_id: int, rating: float):
     try:
-        # I don't understand which way will work / is better.
+        # Seems either could work, pick one or the other
         movie_rating = MovieRating.query.filter_by(user_id=usr_id, movie_id=movie_id).first()
         # movie_rating2 = db.session.execute(select(MovieRating.movie_id).where(MovieRating.user_id == usr_id)).fetchall()
 
@@ -96,7 +96,7 @@ def get_user_rated_movies(usr_id: int):
         user_rated_movies = [mov[0] for mov in urm_result]
         return user_rated_movies
     else:
-        return None
+        return []
 
 
 # Get movies to rate, ordered by unrated movies matching fav genres that are highest rated
