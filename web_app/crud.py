@@ -2,16 +2,18 @@
 CRUD Functions for interacting with tables/data via the ORM
 """
 from .models import Movie, MovieRating, User, UserMixin
-from sqlalchemy import select, update, desc
+from sqlalchemy import select, update, desc, and_
 from sqlalchemy.exc import SQLAlchemyError
 from . import db
 
 
+# Checking if the user has rated this movie before
 def check_previous_rating(usr_id: int, movie_id: int):
-    result = db.session.execute(select(MovieRating.movie_id)
-                                .where(MovieRating.user_id == usr_id)).first()
+    result = db.session.execute(select(MovieRating.movie_id).where(
+        and_(MovieRating.user_id == usr_id, MovieRating.movie_id == movie_id))).first()
+
     if result:
-        db_movie_id = int(result.movie_id)
+        db_movie_id = int(result[0])
         if db_movie_id == movie_id:
             return True
         else:
@@ -20,7 +22,7 @@ def check_previous_rating(usr_id: int, movie_id: int):
         return False
 
 
-# This may need to be a route of some sort in order for JS or JS Ajax to save ratings as they happen.
+# The first time a user rates a movie, save a new record to movie_rating table
 def save_movie_rating(usr_id: int, movie_id: int, rating: float):
     try:
         movie_rating = MovieRating(
@@ -36,10 +38,10 @@ def save_movie_rating(usr_id: int, movie_id: int, rating: float):
         return f"Error saving moving rating: {str(e)}"
 
 
-# This may need to be a route of some sort in order for JS or JS Ajax to save ratings as they happen.
+# When a user re-rates an already rated movie, update the existing record with the new rating
 def update_movie_rating(usr_id: int, movie_id: int, rating: float):
     try:
-        # I don't understand which way will work / is better.
+        # Seems either could work, pick one or the other
         movie_rating = MovieRating.query.filter_by(user_id=usr_id, movie_id=movie_id).first()
         # movie_rating2 = db.session.execute(select(MovieRating.movie_id).where(MovieRating.user_id == usr_id)).fetchall()
 
@@ -64,16 +66,18 @@ def get_user_preferences(usr_id: int):
     return fav_genres, fav_movies
 
 
+# Get a users favorite movie genres (3 max, 3 enforced currently)
 def get_user_fav_genres(usr_id: int):
     ug_result = db.session.execute(select(User.fav_genre1, User.fav_genre2, User.fav_genre3)
                                    .where(User.id == usr_id)).first()
     if ug_result:
-        user_genres = [genre for genre in ug_result]
+        user_genres = [genre.lower() for genre in ug_result]
         return user_genres
     else:
         return None
 
 
+# Get a users favorite movies (3 max, 3 enforced currently)
 def get_user_fav_movies(usr_id: int):
     um_result = db.session.execute(select(User.fav_mov1, User.fav_mov2, User.fav_mov3)
                                    .where(User.id == usr_id)).first()
@@ -84,31 +88,54 @@ def get_user_fav_movies(usr_id: int):
         return None
 
 
+# Get all the movies a user has rated (each row is a dict, i think, need to test)
 def get_user_rated_movies(usr_id: int):
     urm_result = db.session.execute(select(MovieRating.movie_id)
                                    .where(MovieRating.user_id == usr_id)).fetchall()
     if urm_result:
-        user_rated_movies = [mov for mov in urm_result]
+        user_rated_movies = [mov[0] for mov in urm_result]
         return user_rated_movies
     else:
-        return None
+        return []
 
 
+# Get movies to rate, ordered by unrated movies matching fav genres that are highest rated
 def get_movies_to_rate(rated_movies: list, fav_genres: list):
 
     movie_list = Movie.query.order_by(desc(Movie.avg_rate)).limit(200).all()
 
     if movie_list:
-        # Basic - just give back the movies
-        movies = [mov for mov in movie_list]
-        return movies
-        # Need to check if the movie is already rated from rated_movies list
-        # Then serve back N number from list
-        # Use fav_genres to pick pick what makes it in N number list out of all
+        # movies = [mov for mov in movie_list]
+        # return movies
+        movies = []
+        user_rated_movies = []
+        for mov in movie_list:
+            if mov.id not in rated_movies:
+                movies.append(mov)
+            else:
+                user_rated_movies.append(mov)
+        # Get count of unrated movies genres matched to fav_genres
+        for m in movies:
+            m.genre_count = 0
+            for g in m.genres:
+                if g.genre in fav_genres:
+                    m.genre_count += 1
+        # Get count of user rated movies genres matched to fav_genres
+        for mv in user_rated_movies:
+            mv.genre_count = 0
+            for g in mv.genres:
+                if g.genre in fav_genres:
+                    mv.genre_count += 1
+        # for m in movies:
+        #     m.genre_count = sum(1 for genre in m.genres if genre.genre in fav_genres)
+
+        # Sort by fav_genres matches, then the movies average rating
+        sorted_movies = sorted(movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
+        sorted_rated_movies = sorted(user_rated_movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
+        # Order by unrated movies, then rated movies
+        return sorted_movies + sorted_rated_movies
     else:
-        raise Exception("Error retrieving movie links")
-
-
+        raise Exception("Error retrieving movies to rate")
 
 
 # Function to get the valid genre strings

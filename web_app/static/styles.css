@@ -1,11 +1,19 @@
 /* Styling for rate-movies.html */
+.movie_column {
+  float: left;
+  width: 19%;
+  padding: 10px;
+  margin:20px;
+  height: 150px;
+}
+
 .movie-tile {
-display: grid;
-grid-template-columns: auto;
-gap: 10px;
-border: 1px solid #ccc;
-padding: 10px;
-margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: auto;
+  gap: 10px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 20px;
 }
 
 .rating {
