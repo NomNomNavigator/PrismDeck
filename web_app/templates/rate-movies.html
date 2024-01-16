@@ -17,7 +17,9 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
            {% if user.is_authenticated %}
-          <a class="nav-item nav-link active" href="/home">Home<span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link active" href="/prism-home">Home<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="/rate-movies">Rate Movies</a>
+            <a class="nav-item nav-link" href="/prefer">Preferences</a>
             <a class="nav-item nav-link" href="/logout">Logout</a>
             {% else %}
             <a class="nav-item nav-link" href="/login">Login</a>
@@ -31,12 +33,11 @@
     <form action="{{ url_for('rate_movies.rate_movie') }}" method="post">
       {% for movie in movies %}
         <div class="movie_column">
-          <div class="movie_tile">
+          <div class="movie-tile">
             <div class="rating">
               <div>
                 <h5>{{ movie['title'] }}</h5>
-                <p>Year: {{ movie['year'] }}</p>
-                <p>Average Rating: {{ movie['avg_rate'] }}</p>
+                <p>Year: {{ movie['year'] }} <br> Average Rating: {{ movie['avg_rate'] }}</p>
                 <input type="hidden" name="movie_ids[]" value="{{ movie['id'] }}">
                 <input value="5" name="rating_{{ movie['id'] }}" id="star5_{{ movie['id'] }}" type="radio">
                 <label for="star5_{{ movie['id'] }}"></label>

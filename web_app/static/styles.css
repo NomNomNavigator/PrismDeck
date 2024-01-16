@@ -1,23 +1,47 @@
 /* Styling for rate-movies.html */
+.submit-container {
+  clear: both;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 5px;
+}
+
 .movie_column {
-  float: left;
-  width: 19%;
+  display: flex;
+  flex-direction: column;
+  width: 23%;
   padding: 10px;
-  margin:20px;
-  height: 150px;
+  margin: 10px;
+  box-sizing: border-box;
 }
 
 .movie-tile {
-  display: grid;
-  grid-template-columns: auto;
-  gap: 10px;
-  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #101010;
   padding: 10px;
-  margin-bottom: 20px;
+  width: 100%;
+}
+
+.movie-tile2 {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-gap: 10px;
+  border: 1px solid #101010;
+  padding: 10px;
+  width: 100%;
+}
+
+.movie-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .rating {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
 }
 
 .rating input {

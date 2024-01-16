@@ -35,11 +35,13 @@ def create_app():
     from .confirm import confirm
     from .models import User
     from .rate_movies import rate_movies
+    from .rec import rec
 
     # registering the blueprints, making them accessible in the application
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(confirm)
     app.register_blueprint(rate_movies)
+    app.register_blueprint(rec)
 
     login_manager = LoginManager()
     login_manager.login_view = 'confirm.login'
