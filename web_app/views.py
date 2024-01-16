@@ -21,7 +21,7 @@ genres = [
     "Documentary",
     "Drama",
     "Fantasy",
-    "Film-Noir"
+    "Film-Noir",
     "Horror",
     "Musical",
     "Mystery",
