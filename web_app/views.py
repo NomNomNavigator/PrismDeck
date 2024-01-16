@@ -86,3 +86,15 @@ def prefer():
             flash("Your preferences have been successfully saved to your profile!", category="success")
             return redirect(url_for('rate_movies.get_movies'))
     return render_template('prefer.html', user=current_user)
+
+
+@views.route('/prism-home', methods=['POST', 'GET'])
+@login_required
+def home():
+    # The model would be a pickle file, which would be read at app creation
+
+    # POST, the info the model needs? I assume the movies the user has rated?
+
+    # What does the model give back? Movie ids?
+
+    return render_template('prism-home.html', user=current_user,)
