@@ -1,7 +1,7 @@
 """
 CRUD Functions for interacting with tables/data via the ORM
 """
-from .models import Movie, MovieRating, User, UserMixin
+from .models import Movie, MovieRating, User, UserMixin, MovieGenre
 from sqlalchemy import select, update, desc, and_, case, func
 from sqlalchemy.exc import SQLAlchemyError
 from . import db
