@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from sshtunnel import SSHTunnelForwarder
 from config1 import *
-from .recommendation_model import load_als_model
+# from .recommendation_model import load_als_model
 
 db = SQLAlchemy()
 
@@ -25,16 +25,16 @@ def create_app():
 
     # secure the cookies session data; the secret key for the app
     app.config['SECRET_KEY'] = secret_key
-    app.config[
-        'SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_password}@localhost:{ssh_tunnel.local_bind_port}/{db_name}"
+    # app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_password}@localhost:{ssh_tunnel.local_bind_port}/{db_name}"
+    app.config['SQLALCHEMY_DATABASE_URI'] = path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    # To load my ALS Model
-    als_model_path = "/Users/joey/Downloads/model_training"
-    als_model = load_als_model(als_model_path)
-
-    # Add the ALS model to the Flask app context
-    app.config['ALS_MODEL'] = als_model
+    # # To load my ALS Model
+    # als_model_path = "/Users/joey/Downloads/model_training"
+    # # als_model = load_als_model(als_model_path)
+    #
+    # # Add the ALS model to the Flask app context
+    # app.config['ALS_MODEL'] = als_model
 
     # letting the database know this is the app we are going to use
     db.init_app(app)

@@ -1,10 +1,12 @@
 from pyspark.sql.functions import explode
+from pyspark.sql import SparkSession
 from pyspark.ml.recommendation import ALS, ALSModel
 from flask_login import current_user, login_required
 from .models import MovieRating, Movie, MovieGenre
 from . import db
 from collections import defaultdict
 from sqlalchemy.orm import aliased
+from flask import Blueprint, render_template
 
 
 rec = Blueprint('rec', __name__)
