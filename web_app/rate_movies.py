@@ -19,8 +19,8 @@ def get_movies():
 
     if cached_movies is None:
         user_fav_genres = get_user_fav_genres(usr_id)
-        user_rated_movies = get_user_rated_movies(usr_id)
-        movies = get_movies_to_rate(user_rated_movies, user_fav_genres)
+        # user_rated_movies = get_user_rated_movies(usr_id)
+        movies = get_movies_to_rate(user_fav_genres)
         cached_movies = movies
     else:
         movies = cached_movies
