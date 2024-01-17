@@ -76,3 +76,13 @@
 .rating input.half:checked ~ label:hover ~ label:before {
   content: '\2605\00bd'; /* Half star */
 }
+
+/* static.css */
+.back_image {
+    background-image: url('/static/images/movie-background-collage.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* Add any additional styling for your application */
