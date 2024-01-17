@@ -197,6 +197,7 @@ def get_movies_to_rate(fav_genres):
 #                     mv.genre_count += 1
 #
 #         # Sort by fav_genres matches, then the movies average rating
+#         # Not sure if I'm even using lambda properly in the key, hoping it orders by genre count then avg rating
 #         sorted_movies = sorted(movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
 #         sorted_rated_movies = sorted(user_rated_movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
 #         # Order by unrated movies, then rated movies
