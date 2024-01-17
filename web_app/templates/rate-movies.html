@@ -31,6 +31,7 @@
     </nav>
 
     <form action="{{ url_for('rate_movies.rate_movie') }}" method="post">
+      <div class="movie-container">
       {% for movie in movies %}
         <div class="movie_column">
           <div class="movie-tile">
@@ -54,8 +55,12 @@
           </div>
         </div>
       {% endfor %}
-      <input type="submit" value="Rate More" name="next">
-      <input type="submit" value="Finish" name="finish">
+      </div>
+      <div class="submit-container">
+        <input type="submit" value="Rate More" name="next">
+        <input type="submit" value="Finish" name="finish">
+      </div>
+
     </form>
   </body>
 </html>
