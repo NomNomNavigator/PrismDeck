@@ -24,12 +24,15 @@
          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
            <div class="navbar-nav">
               {% if user.is_authenticated %}
-             <a class="nav-item nav-link active" href="/home">Home<span class="sr-only">(current)</span></a>
-               <a class="nav-item nav-link" href="/logout">Logout</a>
-               {% else %}
-               <a class="nav-item nav-link" href="/login">Login</a>
-               <a class="nav-item nav-link" href="/sign-up">Signup</a>
-               {% endif %}
+                <a class="nav-item nav-link" href="/prism-home">Home</a>
+                <a class="nav-item nav-link active" href="/rate-movies">Rate Movies<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/rec">Recommendations</a>
+                <a class="nav-item nav-link" href="/prefer">Preferences</a>
+                <a class="nav-item nav-link" href="/logout">Logout</a>
+                {% else %}
+                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link" href="/sign-up">Signup</a>
+                {% endif %}
              <!-- <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
            </div>
          </div>
