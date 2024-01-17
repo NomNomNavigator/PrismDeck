@@ -6,11 +6,17 @@
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
              crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/static.css') }}">
 </head>
-<body>
-<h1>PrismDeck</h1>
+<body style="background-image: url('/static/images/movie-background-collage.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;">
 <div class="container">
-<div class="row">
+    <div>
+    <h1 class="text-white font-weight-bolder display-1">PrismDeck</h1>
+    </div>
+    <div class="row">
  <div class="col-md-5">
    <div class="card">
      <div class="card-body">
@@ -28,7 +34,7 @@
      <div class="card-body">
        <h1 class="card-title">Sign-up</h1>
        <h4 class="card-text">If you do not already have an account, please create one.</h4>
-       <a href="/sign-up" class="btn btn-primary">SIGN-UP PAGE</a>
+       <a href="/sign-up" class="btn btn-info">SIGN-UP PAGE</a>
      </div>
    </div>
  </div>
