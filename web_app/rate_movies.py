@@ -62,4 +62,4 @@ def rate_movie():
     elif 'finish' in request.form:
         current_movie_position = 0
         cached_movies = None
-        return redirect(url_for('views.access'))
+        return redirect(url_for('rec.recommendation'))

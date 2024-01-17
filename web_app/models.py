@@ -31,6 +31,7 @@ class Movie(db.Model):
     avg_rate = db.Column(db.Float)
     imdb_id = db.Column(db.Integer)
     tmdb_id = db.Column(db.String(30))
+    total_ratings = db.Column(db.Integer, default=0)
 
     genres = db.relationship('MovieGenre', backref='movie')
     tags = db.relationship('MovieTag', backref='movie')

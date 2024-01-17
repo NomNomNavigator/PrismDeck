@@ -2,10 +2,7 @@ from pyspark.sql.functions import explode
 from pyspark.sql import SparkSession
 from pyspark.ml.recommendation import ALS, ALSModel
 from flask_login import current_user, login_required
-from .models import MovieRating, Movie, MovieGenre
-from . import db
-from collections import defaultdict
-from sqlalchemy.orm import aliased
+from .models import MovieRating, Movie
 from flask import Blueprint, render_template
 
 
@@ -24,7 +21,9 @@ def recommendation():
             .getOrCreate()
 
         # loading in the trained ALS rating model
-        rating_model = ALSModel.load('/Users/joey/Downloads/model_training')
+
+        rating_model = ALSModel.load('web_app/model/rating_model_file copy')
+
         # Querying the user from the database
         user_id = current_user.id
         user_rating = MovieRating.query.filter_by(user_id=user_id).all()

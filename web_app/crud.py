@@ -100,59 +100,8 @@ def get_user_rated_movies(usr_id: int):
         return []
 
 
-def get_movies_to_rate(fav_genres):
-    usr_id = current_user.id
-
-    # Want to show the user the movie title, year, average rating and total ratings.
-    query = select(
-        Movie.id,
-        Movie.title,
-        Movie.year,
-        Movie.avg_rate,
-        func.count(MovieGenre.id).filter(MovieGenre.genre.in_(fav_genres)).label('matching_genre_count'),
-        Movie.total_ratings
-    ).select_from(
-        # Joining movies and movie genres, need the genres to create the genre match count and track for each movie
-        Movie.__table__.join(MovieGenre, Movie.id == MovieGenre.movie_id, isouter=True)
-    ).where(
-        # Using subquery to filter out movies the user already rated
-        Movie.id.notin_(select(MovieRating.movie_id).where(MovieRating.user_id == usr_id))
-    ).group_by(
-        # Need the group_by on movie id for the count to be aggregated to the movie
-        Movie.id
-    ).order_by(
-        case(
-            (and_(Movie.avg_rate.between(4.6, 5.0), Movie.matching_genre_count >= 2, Movie.total_ratings >= 200), 0),
-            (and_(Movie.avg_rate.between(4.0, 4.5), Movie.matching_genre_count >= 2, Movie.total_ratings >= 200), 1),
-            (and_(Movie.avg_rate.between(4.6, 5.0), Movie.matching_genre_count == 1, Movie.total_ratings >= 200), 2),
-            (and_(Movie.avg_rate.between(4.0, 4.5), Movie.matching_genre_count == 1, Movie.total_ratings >= 200), 3),
-            (and_(Movie.avg_rate.between(4.6, 5.0), Movie.matching_genre_count == 0, Movie.total_ratings >= 200), 4),
-            (and_(Movie.avg_rate.between(4.0, 4.5), Movie.matching_genre_count == 0, Movie.total_ratings >= 200), 5),
-            (and_(Movie.avg_rate.between(3.0, 3.9), Movie.matching_genre_count >= 1, Movie.total_ratings >= 200), 6),
-            (and_(Movie.avg_rate.between(3.0, 5.0), Movie.matching_genre_count >= 1, Movie.total_ratings < 200), 7),
-            else_=8),
-        # Order movies in each case rank from highest rank to lowest
-        desc(Movie.avg_rate)
-    )
-
-    result = db.session.execute(query)
-
-    # Fetch and return the results
-    movies_to_rate = []
-    for row in result:
-        movies_to_rate.append({
-            'id': row[0],
-            'title': row[1],
-            'year': row[2],
-            'avg_rate': row[3],
-            'rates': row[5]
-        })
-    print(movies_to_rate[0])
-    return movies_to_rate
-
-
 # Get movies to rate, ordered by unrated movies matching fav genres that are highest rated (Faster to make query do it?)
-def get_movies_to_rate2(fav_genres):
+def get_movies_to_rate(fav_genres):
     usr_id = current_user.id
 
     # Want to show the user the movie title, year, average rating and total ratings.

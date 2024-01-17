@@ -7,7 +7,8 @@
 
 <ul>
     {% for rec in rec_movie %}
-        {{ rec }}
+        {{ rec.title }}
+        {{ rec.avg_rating }}
             <br>
     {% endfor %}
 </ul>
