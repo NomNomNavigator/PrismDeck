@@ -2,9 +2,10 @@
 CRUD Functions for interacting with tables/data via the ORM
 """
 from .models import Movie, MovieRating, User, UserMixin
-from sqlalchemy import select, update, desc, and_
+from sqlalchemy import select, update, desc, and_, case, func
 from sqlalchemy.exc import SQLAlchemyError
 from . import db
+from flask_login import current_user
 
 
 # Checking if the user has rated this movie before
@@ -99,43 +100,91 @@ def get_user_rated_movies(usr_id: int):
         return []
 
 
-# Get movies to rate, ordered by unrated movies matching fav genres that are highest rated
-def get_movies_to_rate(rated_movies: list, fav_genres: list):
+# Get movies to rate, ordered by unrated movies matching fav genres that are highest rated (Faster querying DB)
+def get_movies_to_rate(fav_genres):
+    usr_id = current_user.id
 
-    movie_list = Movie.query.order_by(desc(Movie.avg_rate)).limit(200).all()
+    query = select(
+        Movie.id,
+        Movie.title,
+        Movie.year,
+        Movie.avg_rate,
+        func.count(MovieGenre.id).label('matching_genre_count'),
+        Movie.total_ratings
+    ).select_from(
+        Movie.__table__.join(MovieGenre, Movie.id == MovieGenre.movie_id, isouter=True)
+    ).where(
+        Movie.id.notin_(select(MovieRating.movie_id).where(MovieRating.user_id == usr_id)),
+        MovieGenre.genre.in_(fav_genres)
+    ).group_by(
+        Movie.id
+    ).order_by(
+        case(
+            (and_(Movie.avg_rate.between(4.6, 5.0), func.count(MovieGenre.id) >= 2, Movie.total_ratings >= 200), 0),
+            (and_(Movie.avg_rate.between(4.0, 4.5), func.count(MovieGenre.id) >= 2, Movie.total_ratings >= 200), 1),
+            (and_(Movie.avg_rate.between(4.6, 5.0), func.count(MovieGenre.id) == 1, Movie.total_ratings >= 200), 2),
+            (and_(Movie.avg_rate.between(4.0, 4.5), func.count(MovieGenre.id) == 1, Movie.total_ratings >= 200), 3),
+            (and_(Movie.avg_rate.between(4.6, 5.0), func.count(MovieGenre.id) == 0, Movie.total_ratings >= 200), 4),
+            (and_(Movie.avg_rate.between(4.0, 4.5), func.count(MovieGenre.id) == 0, Movie.total_ratings >= 200), 5),
+            (and_(Movie.avg_rate.between(3.0, 3.9), func.count(MovieGenre.id) >= 1, Movie.total_ratings >= 200), 6),
+            (and_(Movie.avg_rate.between(3.0, 5.0), func.count(MovieGenre.id) >= 1, Movie.total_ratings < 200), 7),
+            else_=8),
+        desc(Movie.avg_rate)
+    )
 
-    if movie_list:
-        # movies = [mov for mov in movie_list]
-        # return movies
-        movies = []
-        user_rated_movies = []
-        for mov in movie_list:
-            if mov.id not in rated_movies:
-                movies.append(mov)
-            else:
-                user_rated_movies.append(mov)
-        # Get count of unrated movies genres matched to fav_genres
-        for m in movies:
-            m.genre_count = 0
-            for g in m.genres:
-                if g.genre in fav_genres:
-                    m.genre_count += 1
-        # Get count of user rated movies genres matched to fav_genres
-        for mv in user_rated_movies:
-            mv.genre_count = 0
-            for g in mv.genres:
-                if g.genre in fav_genres:
-                    mv.genre_count += 1
-        # for m in movies:
-        #     m.genre_count = sum(1 for genre in m.genres if genre.genre in fav_genres)
+    result = db.session.execute(query)
 
-        # Sort by fav_genres matches, then the movies average rating
-        sorted_movies = sorted(movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
-        sorted_rated_movies = sorted(user_rated_movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
-        # Order by unrated movies, then rated movies
-        return sorted_movies + sorted_rated_movies
-    else:
-        raise Exception("Error retrieving movies to rate")
+    # Fetch and return the results
+    movies_to_rate = []
+    for row in result:
+        movies_to_rate.append({
+            'id': row[0],
+            'title': row[1],
+            'year': row[2],
+            'avg_rate': row[3],
+            'rates': row[5]
+        })
+    print(movies_to_rate[0])
+    return movies_to_rate
+
+
+# This was too slow at returning movies, googled and querying to DB handling match and order can be faster
+# def get_movies_to_rate(rated_movies: list, fav_genres: list):
+#
+#     movie_list = Movie.query.order_by(desc(Movie.avg_rate)).limit(200).all()
+#
+#     if movie_list:
+#         # movies = [mov for mov in movie_list]
+#         # return movies
+#         movies = []
+#         user_rated_movies = []
+#         for mov in movie_list:
+#             if mov.id not in rated_movies:
+#                 movies.append(mov)
+#             else:
+#                 user_rated_movies.append(mov)
+#         # Get count of unrated movies genres matched to fav_genres
+#         for m in movies:
+#             m.genre_count = 0
+#             for g in m.genres:
+#                 if g.genre in fav_genres:
+#                     m.genre_count += 1
+#         # Get count of user rated movies genres matched to fav_genres
+#         for mv in user_rated_movies:
+#             mv.genre_count = 0
+#             for g in mv.genres:
+#                 if g.genre in fav_genres:
+#                     mv.genre_count += 1
+#         # for m in movies:
+#         #     m.genre_count = sum(1 for genre in m.genres if genre.genre in fav_genres)
+#
+#         # Sort by fav_genres matches, then the movies average rating
+#         sorted_movies = sorted(movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
+#         sorted_rated_movies = sorted(user_rated_movies, key=lambda mo: (mo.genre_count, mo.avg_rate), reverse=True)
+#         # Order by unrated movies, then rated movies
+#         return sorted_movies + sorted_rated_movies
+#     else:
+#         raise Exception("Error retrieving movies to rate")
 
 
 # Function to get the valid genre strings
