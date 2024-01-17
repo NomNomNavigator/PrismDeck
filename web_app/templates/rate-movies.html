@@ -42,7 +42,7 @@
               <div class="rating">
                 <div>
                   <h5>{{ movie['title'] }}</h5>
-                  <p>Year: {{ movie['year'] }} <br> Average Rating: {{ movie['avg_rate'] }}</p>
+                  <p>Year: {{ movie['year'] }} <br> Average Rating: {{ movie['avg_rate'] }} <br> Reviewers: {{ movie['rates'] }}</p>
                   <input type="hidden" name="movie_ids[]" value="{{ movie['id'] }}">
                   <input value="5" name="rating_{{ movie['id'] }}" id="star5_{{ movie['id'] }}" type="radio">
                   <label for="star5_{{ movie['id'] }}"></label>

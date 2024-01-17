@@ -21,7 +21,7 @@ def recommendation():
             .getOrCreate()
 
         # loading in the trained ALS rating model
-        rating_model = ALSModel.load('/Users/mike/Documents/rating_model_file copy')
+        rating_model = ALSModel.load('web_app/model/rating_model_file copy')
         # Querying the user from the database
         user_id = current_user.id
         user_rating = MovieRating.query.filter_by(user_id=user_id).all()
