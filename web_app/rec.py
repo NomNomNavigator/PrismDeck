@@ -1,5 +1,3 @@
-from flask import Blueprint, render_template, request, jsonify
-from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode
 from pyspark.ml.recommendation import ALS, ALSModel
 from flask_login import current_user, login_required
@@ -10,6 +8,7 @@ from sqlalchemy.orm import aliased
 
 
 rec = Blueprint('rec', __name__)
+
 
 
 def get_all_movies_with_genres():
