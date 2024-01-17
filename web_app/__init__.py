@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from sshtunnel import SSHTunnelForwarder
 from config1 import *
+from .recommendation_model import load_als_model
 
 db = SQLAlchemy()
 
@@ -28,8 +29,9 @@ def create_app():
         'SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_password}@localhost:{ssh_tunnel.local_bind_port}/{db_name}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    from pyspark.ml.recommendation import ALSModel
-
+    # To load my ALS Model
+    als_model_path = "/path/to/your/als_model"
+    als_model = load_als_model(als_model_path)
 
     # Add the ALS model to the Flask app context
     app.config['ALS_MODEL'] = als_model

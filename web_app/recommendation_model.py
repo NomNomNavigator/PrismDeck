@@ -1,0 +1,1 @@
+does anything have to be done in these template files based on the __init__.py, rec
