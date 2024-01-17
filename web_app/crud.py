@@ -228,7 +228,7 @@ def get_movies_to_rate(fav_genres):
 #         Movie.id
 #     ).order_by(
 #         case(
-#               #  Ahhhh crap just not working trying to calc a column and getting it to show.
+#               #  Can't get this to work, need to consider the matched fav genres count for the case but can't use func or a calc column
 #             (and_(Movie.avg_rate.between(4.6, 5.0), matching_genre_count >= 2, Movie.total_ratings >= 200), 0),
 #             (and_(Movie.avg_rate.between(4.0, 4.5), func.count(MovieGenre.id).filter(MovieGenre.genre.in_(fav_genres)) >= 2, Movie.total_ratings >= 200), 1),
 #             (and_(Movie.avg_rate.between(4.6, 5.0), func.count(MovieGenre.id).filter(MovieGenre.genre.in_(fav_genres)) == 1, Movie.total_ratings >= 200), 2),
