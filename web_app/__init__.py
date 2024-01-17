@@ -30,7 +30,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # To load my ALS Model
-    als_model_path = "/path/to/your/als_model"
+    als_model_path = "/Users/joey/Downloads/model_training"
     als_model = load_als_model(als_model_path)
 
     # Add the ALS model to the Flask app context
