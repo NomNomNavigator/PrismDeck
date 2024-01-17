@@ -4,16 +4,15 @@ from flask_login import LoginManager
 from sshtunnel import SSHTunnelForwarder
 from config1 import *
 
-
 db = SQLAlchemy()
 
 # Configure the ssh_tunnel which is started in create_app() and closed in main.py
 ssh_tunnel = SSHTunnelForwarder(
-        (ssh_host, port),  # replace with your SSH server details
-        ssh_username=ssh_username,
-        ssh_password=ssh_password,
-        remote_bind_address=('localhost', 3306)  # replace with your MySQL server details
-    )
+    (ssh_host, port),  # replace with your SSH server details
+    ssh_username=ssh_username,
+    ssh_password=ssh_password,
+    remote_bind_address=('localhost', 3306)  # replace with your MySQL server details
+)
 
 
 # initializing flask
@@ -25,8 +24,15 @@ def create_app():
 
     # secure the cookies session data; the secret key for the app
     app.config['SECRET_KEY'] = secret_key
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_password}@localhost:{ssh_tunnel.local_bind_port}/{db_name}"
+    app.config[
+        'SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_password}@localhost:{ssh_tunnel.local_bind_port}/{db_name}"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    from pyspark.ml.recommendation import ALSModel
+
+
+    # Add the ALS model to the Flask app context
+    app.config['ALS_MODEL'] = als_model
 
     # letting the database know this is the app we are going to use
     db.init_app(app)
@@ -53,7 +59,6 @@ def create_app():
         return User.query.get(int(_id))
 
     return app
-
 
 # I am not sure if we will need this or not
 # def create_database(app):
