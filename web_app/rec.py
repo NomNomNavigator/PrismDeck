@@ -1,5 +1,3 @@
-from flask import Blueprint, render_template, request, jsonify
-from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode
 from pyspark.ml.recommendation import ALS, ALSModel
 from flask_login import current_user, login_required
@@ -54,9 +52,5 @@ def recommendation():
 
         # Stop the spark session
         spark.stop()
-        return render_template('/recommendation.html', user=current_user, rec_movie=recommended_movies)
-    else:
-        pass
-
         return render_template('/recommendation.html', user=current_user, rec_movie=recommended_movies)
 
