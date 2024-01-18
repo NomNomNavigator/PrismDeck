@@ -1,15 +1,41 @@
 /* Styling for rate-movies.html */
-.movie-tile {
-display: grid;
-grid-template-columns: auto;
-gap: 10px;
-border: 1px solid #ccc;
-padding: 10px;
-margin-bottom: 20px;
+.submit-container {
+  clear: both;
+  text-align: center;
+  margin-top: 20px;
+  margin-left: 5px;
 }
 
+.movie_column {
+  display: flex;
+  flex-direction: column;
+  width: 23%;
+  padding: 10px;
+  margin: 10px;
+  box-sizing: border-box;
+}
+
+.movie-tile {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid #800080;
+  padding: 10px;
+  width: 100%;
+  background-color: white;
+}
+
+.movie-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+
+/* rating class for stars 1-5 */
 .rating {
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
 }
 
 .rating input {
@@ -44,3 +70,16 @@ margin-bottom: 20px;
 .rating input.half:checked ~ label:hover ~ label:before {
   content: '\2605\00bd'; /* Half star */
 }
+
+/* static.css */
+.back_image {
+    background-image: url('/static/images/movie-background-collage.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.custom_text{
+    color: white;
+}
+/* Add any additional styling for your application */

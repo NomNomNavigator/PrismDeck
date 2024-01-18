@@ -3,17 +3,17 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from sshtunnel import SSHTunnelForwarder
 from config1 import *
-
+# from .recommendation_model import load_als_model
 
 db = SQLAlchemy()
 
 # Configure the ssh_tunnel which is started in create_app() and closed in main.py
 ssh_tunnel = SSHTunnelForwarder(
-        (ssh_host, port),  # replace with your SSH server details
-        ssh_username=ssh_username,
-        ssh_password=ssh_password,
-        remote_bind_address=('localhost', 3306)  # replace with your MySQL server details
-    )
+    (ssh_host, port),  # replace with your SSH server details
+    ssh_username=ssh_username,
+    ssh_password=ssh_password,
+    remote_bind_address=('localhost', 3306)  # replace with your MySQL server details
+)
 
 
 # initializing flask
@@ -21,12 +21,20 @@ def create_app():
     app = Flask(__name__)
 
     # Start the SSH tunnel
-    ssh_tunnel.start()
+    # ssh_tunnel.start()
 
     # secure the cookies session data; the secret key for the app
     app.config['SECRET_KEY'] = secret_key
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_password}@localhost:{ssh_tunnel.local_bind_port}/{db_name}"
+    # app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_username}:{db_password}@localhost:{ssh_tunnel.local_bind_port}/{db_name}"
+    app.config['SQLALCHEMY_DATABASE_URI'] = path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # # To load my ALS Model
+    # als_model_path = "/Users/joey/Downloads/model_training"
+    # # als_model = load_als_model(als_model_path)
+    #
+    # # Add the ALS model to the Flask app context
+    # app.config['ALS_MODEL'] = als_model
 
     # letting the database know this is the app we are going to use
     db.init_app(app)
@@ -35,11 +43,13 @@ def create_app():
     from .confirm import confirm
     from .models import User
     from .rate_movies import rate_movies
+    from .rec import rec
 
     # registering the blueprints, making them accessible in the application
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(confirm)
     app.register_blueprint(rate_movies)
+    app.register_blueprint(rec)
 
     login_manager = LoginManager()
     login_manager.login_view = 'confirm.login'
@@ -51,7 +61,6 @@ def create_app():
         return User.query.get(int(_id))
 
     return app
-
 
 # I am not sure if we will need this or not
 # def create_database(app):

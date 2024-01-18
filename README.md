@@ -19,3 +19,5 @@ user likes comedies, ratings that are between 3-5 stars and a certain time that 
 ## Dataset:
 That the data set we will be using is from a folder of csv files gathered from Movie Lens - https://grouplens.org/datasets/movielens/latest/ . We will be using the csv files to help with the rules algorithm as well as using the data to help train our model
   
+## Rating Stars CSS/HTML
+Modified to our needs from open-source code, permission granted under MIT License.  See NOTICE.md
