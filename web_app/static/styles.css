@@ -31,6 +31,8 @@
   align-items: flex-start;
 }
 
+
+/* rating class for stars 1-5,
 .rating {
   display: flex;
   flex-direction: column;
