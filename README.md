@@ -19,5 +19,10 @@ user likes comedies, ratings that are between 3-5 stars and a certain time that 
 ## Dataset:
 That the data set we will be using is from a folder of csv files gathered from Movie Lens - https://grouplens.org/datasets/movielens/latest/ . We will be using the csv files to help with the rules algorithm as well as using the data to help train our model
   
+
 ## Rating Stars CSS/HTML
 Modified to our needs from open-source code, permission granted under MIT License.  See NOTICE.md
+
+## Model Training
+With this being a recommendation system for users and such a large dataset, we leveraged Python with Apache Spark to use the `Alternating Least Sqaured (ALS)` algorithm. The data was split for 80% trainig of the model and 20% for testing the model. We then tested it's accuracy using the metric `Root Mean Squared Error (RMSE)`. This metric as of now has given us back `0.8009857963477534` as our results with the metric. The model is also loaded into our Flask application in one of our various routes.
+
