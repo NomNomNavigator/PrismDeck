@@ -8,12 +8,12 @@ from config1 import *
 db = SQLAlchemy()
 
 # Configure the ssh_tunnel which is started in create_app() and closed in main.py
-ssh_tunnel = SSHTunnelForwarder(
-    (ssh_host, port),  # replace with your SSH server details
-    ssh_username=ssh_username,
-    ssh_password=ssh_password,
-    remote_bind_address=('localhost', 3306)  # replace with your MySQL server details
-)
+# ssh_tunnel = SSHTunnelForwarder(
+#     (ssh_host, port),  # replace with your SSH server details
+#     ssh_username=ssh_username,
+#     ssh_password=ssh_password,
+#     remote_bind_address=('localhost', 3306)  # replace with your MySQL server details
+# )
 
 
 # initializing flask
@@ -21,7 +21,7 @@ def create_app():
     app = Flask(__name__)
 
     # Start the SSH tunnel
-    ssh_tunnel.start()
+    # ssh_tunnel.start()
 
     # secure the cookies session data; the secret key for the app
     app.config['SECRET_KEY'] = secret_key
@@ -36,7 +36,7 @@ def create_app():
     # # Add the ALS model to the Flask app context
     # app.config['ALS_MODEL'] = als_model
 
-    # letting the database know this is the app we are going to use
+    # Initializing and configuring the database connection with flask
     db.init_app(app)
     # importing blueprints
     from .views import views
@@ -44,18 +44,20 @@ def create_app():
     from .models import User
     from .rate_movies import rate_movies
     from .rec import rec
+    from .head_shots import head_shots
 
     # registering the blueprints, making them accessible in the application
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(confirm)
     app.register_blueprint(rate_movies)
     app.register_blueprint(rec)
+    app.register_blueprint(head_shots)
 
     login_manager = LoginManager()
     login_manager.login_view = 'confirm.login'
     login_manager.init_app(app)
 
-    # telling flask how to load a user; looks for primary key to look for user
+    # Telling flask how to load a user; looks for primary key to look for user
     @login_manager.user_loader
     def load_user(_id):
         return User.query.get(int(_id))

@@ -12,6 +12,7 @@ rec = Blueprint('rec', __name__)
 @rec.route('/rec', methods=['GET'])
 @login_required
 def recommendation():
+    # Checking if the user's ID is in the model
     user_id = current_user.id
     if user_id < 162541:
         # Starting spark session
@@ -21,11 +22,10 @@ def recommendation():
             .getOrCreate()
 
         # loading in the trained ALS rating model
-
         rating_model = ALSModel.load('web_app/model/rating_model_file copy')
 
-        # Querying the user from the database
         user_id = current_user.id
+        # Querying the database for the user's rated movies
         user_rating = MovieRating.query.filter_by(user_id=user_id).all()
 
         # Create a DataFrame with user ratings
@@ -51,7 +51,7 @@ def recommendation():
         recommended_movies = Movie.query.filter(Movie.id.in_(recommended_movie_ids)).all()
         print("Recommended Movies:", recommended_movies)
 
-        # Stop the spark session
+        # Stopping the spark session
         spark.stop()
         return render_template('/recommendation.html', user=current_user, rec_movie=recommended_movies)
 
