@@ -21,7 +21,7 @@ def create_app():
     app = Flask(__name__)
 
     # Start the SSH tunnel
-    ssh_tunnel.start()
+    # ssh_tunnel.start()
 
     # secure the cookies session data; the secret key for the app
     app.config['SECRET_KEY'] = secret_key

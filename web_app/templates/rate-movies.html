@@ -13,32 +13,36 @@
             background-repeat: no-repeat;
             background-attachment: fixed;">
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" >
-      <a class="navbar-brand display-4" href="#"><img src="{{url_for('static', filename="images/chewing_otter.jpeg")}}",width="50", height="50"> PrismDeck</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-           {% if user.is_authenticated %}
-            <a class="nav-item nav-link" href="/prism-home">Home</a>
-            <a class="nav-item nav-link active" href="/rate-movies">Rate Movies<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="/prefer">Preferences</a>
-            <a class="nav-item nav-link" href="/logout">Logout</a>
-            {% else %}
-            <a class="nav-item nav-link" href="/login">Login</a>
-            <a class="nav-item nav-link" href="/sign-up">Signup</a>
-            {% endif %}
-          <!-- <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a> -->
-        </div>
-      </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info" >
+         <a class="navbar-brand" href="#"><img src="{{url_for('static', filename="images/chewing_otter.jpeg")}}",width="50", height="50"> PrismDeck</a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+           <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                <a class="nav-item nav-link" href="/prism-home">Home</a>
+                <a class="nav-item nav-link active" href="/rate-movies">Rate Movies<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/rec">Recommendations</a>
+                <a class="nav-item nav-link" href="/prefer">Preferences</a>
+                <a class="nav-item nav-link" href="/logout">Logout</a>
+                {% else %}
+                <a class="nav-item nav-link" href="/login">Login</a>
+                <a class="nav-item nav-link" href="/sign-up">Signup</a>
+              {% endif %}
+           </div>
+         </div>
     </nav>
+
+
+    <br>
 
     <form action="{{ url_for('rate_movies.rate_movie') }}" method="post">
       <div class="movie-container">
         {% for movie in movies %}
           <div class="movie_column">
-            <div class="movie-tile">
+            <div class="movie-tile rounded">
               <div class="rating">
                 <div>
                   <h5>{{ movie['title'] }}</h5>
