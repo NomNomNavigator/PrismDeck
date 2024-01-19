@@ -1,9 +1,11 @@
 # PrismDeck
 
+ This application is a movie recommendation app
 
+This is our group project from Zip Code Wilmington. This application will be used to recommend movies the users based on their rating inputs. For instance, if the 
+user rates movies between 3-5 stars, they will get recommnedations based on that very input by comparing to other users.
 
-This application will be used to recommend movies the users based on their input. For instance, if the 
-user likes comedies, ratings that are between 3-5 stars and a certain time that movies were released, they will get recommnedations based on that very input.
+## Description
 
 - **Favorites**:
   - Users will have a favorites list upon creation to save their favorite moveies that they enjoy. The application will give
@@ -16,7 +18,7 @@ user likes comedies, ratings that are between 3-5 stars and a certain time that 
   - When useres are recommended the list of movies, when the user clicks on the movie, iut will send them to the movie's website so that they may get further information on their recommneded movie
  
 - **Tools**:
-  - the tools that we will be using for this project are Python, Pandas, Jupyter Notebook, Apache Spark, Flask, HTML, CSS, CSVs, Kubernetes, MySQL, SQLAlchemy
+  - the tools that we will be using for this project are Python, Pandas, Jupyter Notebook, Apache Spark, Flask, HTML, CSS, CSVs, MySQL, SQLAlchemy
 
 ## Dataset:
 That the data set we will be using is from a folder of csv files gathered from Movie Lens - https://grouplens.org/datasets/movielens/latest/ . We will be using the csv files to help with the rules algorithm as well as using the data to help train our model
