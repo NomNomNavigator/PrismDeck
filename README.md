@@ -1,5 +1,12 @@
 # PrismDeck
 
+![imir](https://github.com/NomNomNavigator/PrismDeck/assets/122006390/a9808c0b-cb1b-4a66-b4f8-f45126d104e2)
+
+
+
+
+
+
 This application will be used to recommend movies the users based on their input. For instance, if the 
 user likes comedies, ratings that are between 3-5 stars and a certain time that movies were released, they will get recommnedations based on that very input.
 
