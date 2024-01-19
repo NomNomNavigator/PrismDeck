@@ -1,6 +1,6 @@
 # PrismDeck
 
-![imir](https://github.com/NomNomNavigator/PrismDeck/assets/122006390/a9808c0b-cb1b-4a66-b4f8-f45126d104e2)
+
 
 
 
