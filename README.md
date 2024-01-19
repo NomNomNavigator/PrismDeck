@@ -8,7 +8,7 @@ user rates movies between 3-5 stars, they will get recommnedations based on that
 ## Description
 
 - **Favorites**:
-  - Users will have a favorites list upon creation to save their favorite moveies that they enjoy. The application will give
+  - Users will have a favorites list upon creation to save their favorite moviees that they enjoy. The application will give
     recommendations based on that as well
 
 - **Match & Rank**
