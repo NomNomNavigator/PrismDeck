@@ -2,10 +2,10 @@
 
  This application is a movie recommendation app
 
-This is our group project from Zip Code Wilmington. This application will be used to recommend movies the users based on their rating inputs. For instance, if the 
-user rates movies between 3-5 stars, they will get recommnedations based on that very input by comparing to other users.
+This is our group project from Zip Code Wilmington. PrismDeck is an application designed to recommend movies to users based on their preferences.
+Users can input their preferences such as movie genre (e.g., comedies), ratings between 3-5 stars, and specific release time frames. The application employs an algorithm or rules along with a trained model to match and rank movies according to user preferences. The model is trained on giving recommendations to the users for ratings using User_Based Callobrative Filtering.
 
-## Description
+## Features
 
 - **Favorites**:
   - Users will have a favorites list upon creation to save their favorite moviees that they enjoy. The application will give
@@ -16,14 +16,36 @@ user rates movies between 3-5 stars, they will get recommnedations based on that
     
 - **Movie Link**
   - When useres are recommended the list of movies, when the user clicks on the movie, iut will send them to the movie's website so that they may get further information on their recommneded movie
- 
+
+## Dependencies
 - **Tools**:
-  - the tools that we will be using for this project are Python, Pandas, Jupyter Notebook, Apache Spark, Flask, HTML, CSS, CSVs, MySQL, SQLAlchemy
+  The technologies that we will be using for this project are:
+  - Python
+  - Pandas
+  - Jupyter Notebook
+  - Apache Spark
+  - Flask
+  - HTML
+  - CSS
+  - CSV Files
+  - MySQL
+  - SQLAlchemy
+
+### Installing Requirements
+Create a virtual environment
+```python3 -m venv /path/to/new/virtual/environment/name_of_environment```
+Then activate the virtual environment
+```source name_of_environment/bin/activate```
+After that, install the requirements to run the app
+```pip install -r requirements.txt```
+Now, you can run the app
+```export FLASK_APP=main```
+```flask run```
+
 
 ## Dataset:
 That the data set we will be using is from a folder of csv files gathered from Movie Lens - https://grouplens.org/datasets/movielens/latest/ . We will be using the csv files to help with the rules algorithm as well as using the data to help train our model
   
-
 ## Rating Stars CSS/HTML
 Modified to our needs from open-source code, permission granted under MIT License.  See NOTICE.md
 
