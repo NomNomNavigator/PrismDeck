@@ -2,10 +2,10 @@
 This application is a movie recommendation app
 
 ## Authors
-**Michael Riley**
-**Josette Nelson**
-**Imir Ransom**
-**Corinne Kogut**
+- **Michael Riley**
+- **Josette Nelson**
+- **Imir Ransom**
+- **Corinne Kogut**
 
 ## Description
 
