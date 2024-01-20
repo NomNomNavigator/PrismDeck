@@ -36,15 +36,15 @@ Users can input their preferences such as movie genre (e.g., comedies), ratings 
 ```
 python3 -m venv /path/to/new/virtual/environment/name_of_environment
 ```
-- Then activate the virtual environment
+Then activate the virtual environment
 ```
 source name_of_environment/bin/activate
 ```
-- After that, install the requirements to run the app
+After that, install the requirements to run the app
 ```
 pip install -r requirements.txt
 ```
-- Now, you can run the app
+Now, you can run the app
 ```
 export FLASK_APP=main
 ```
