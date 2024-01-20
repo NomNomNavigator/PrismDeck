@@ -1,6 +1,13 @@
 # PrismDeck
+This application is a movie recommendation app
 
- This application is a movie recommendation app
+## Authors
+**Michael Riley**
+**Josette Nelson**
+**Imir Ransom**
+**Corinne Kogut**
+
+## Description
 
 This is our group project from Zip Code Wilmington. PrismDeck is an application designed to recommend movies to users based on their preferences.
 Users can input their preferences such as movie genre (e.g., comedies), ratings between 3-5 stars, and specific release time frames. The application employs an algorithm or rules along with a trained model to match and rank movies according to user preferences. The model is trained on giving recommendations to the users for ratings using User_Based Callobrative Filtering.
@@ -32,7 +39,7 @@ Users can input their preferences such as movie genre (e.g., comedies), ratings 
   - SQLAlchemy
 
 ### Installing Requirements
-- Create a virtual environment
+Create a virtual environment
 ```
 python3 -m venv /path/to/new/virtual/environment/name_of_environment
 ```
