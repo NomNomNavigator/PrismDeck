@@ -9,12 +9,12 @@
     <br>
 
 <ul>
-        {% for rec in rec_movie %}
+    {% for rec in rec_movie %}
     <h1 class="text-white">
-    {{ rec.title }}
+        {{ rec.title }}
         {{ rec.avg_rating }}
     </h1>
-            <br>
+    <br>
     {% endfor %}
 </ul>
     <a href="/head_shots" class="btn btn-info"><h1>See more recommendations</h1></a>
