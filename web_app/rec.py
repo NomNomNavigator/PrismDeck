@@ -37,6 +37,7 @@ def recommendation():
         num_rec = 5
         # user_df = spark.createDataFrame([(user_id,)], ['userId'])
         recommendations = rating_model.recommendForUserSubset(user_df, num_rec)
+        # Specifies the column names for the DataFrame.
         recommendations.show()
 
         exploded_recommendations = recommendations.select("userId", explode("recommendations").alias("rec"))
