@@ -2,15 +2,21 @@
 {% block title %}Recommendation Page{% endblock %}
 
 {% block content %}
-
-<h1>Recommendation Page</h1>
+<div align="center">
+    <h1 class="font-weight-bolder text-white display-3">Recommendation Page</h1>
+    <br/>
+    <br>
+    <br>
 
 <ul>
     {% for rec in rec_movie %}
+    <h1 class="text-white">
         {{ rec.title }}
         {{ rec.avg_rating }}
-            <br>
+    </h1>
+    <br>
     {% endfor %}
 </ul>
-
+    <a href="/head_shots" class="btn btn-info"><h1>See more recommendations</h1></a>
+</div>
 {% endblock %}

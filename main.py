@@ -1,4 +1,4 @@
-from web_app import create_app, db, ssh_tunnel
+from web_app import create_app, db
 from flask_migrate import Migrate
 
 app = create_app()
@@ -10,7 +10,5 @@ with app.app_context():
 
 # will only run the web server in this file
 if __name__ == "__main__":
-    try:
-        app.run(debug=True)
-    finally:
-        ssh_tunnel.stop()
+
+    app.run(debug=True)
